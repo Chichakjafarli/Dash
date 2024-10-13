@@ -65,6 +65,7 @@ def update_graphs(selected_category, start_date, end_date):
 # Uygulamayı çalıştır
 if __name__ == '__main__':
     app.run_server(debug=True)
+server = app.server
 
 
 
