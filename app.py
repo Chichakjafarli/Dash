@@ -1,6 +1,10 @@
 import pandas as pd
 import folium
 import os
+from flask import Flask, send_from_directory
+
+# Initialize Flask app
+app = Flask(__name__)
 
 # Step 1: Load the Excel file
 file_path = os.path.join('data', 'new.xlsx')
@@ -9,12 +13,12 @@ file_path = os.path.join('data', 'new.xlsx')
 if os.path.exists(file_path):
     df = pd.read_excel(file_path)
 else:
-    print(f"File not found: {file_path}")
+    raise FileNotFoundError(f"File not found: {file_path}")
 
 # Ensure the 'Səfər' column is in datetime format
 df['Səfər'] = pd.to_datetime(df['Səfər'], errors='coerce')
 
-# Step 5: Check if 'Longitude' and 'Latitude' columns exist
+# Step 5: Check if 'longitude' and 'latitude' columns exist
 if 'longitude' not in df.columns or 'latitude' not in df.columns:
     raise ValueError("Excel file must contain 'Longitude' and 'Latitude' columns.")
 
@@ -45,5 +49,15 @@ for index, row in df.iterrows():
     )
     marker.add_to(mymap)
 
-# Step 9: Save the map to an HTML file and display
-mymap.save("map_with_dates.html")
+# Step 9: Save the map to an HTML file
+map_file_path = "map_with_dates.html"
+mymap.save(map_file_path)
+
+# Define a route to serve the HTML file
+@app.route('/')
+def index():
+    return send_from_directory('.', map_file_path)
+
+# To run the application with specified host and port for Render
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8050)))
