@@ -38,7 +38,7 @@ for index, row in df.iterrows():
     traveller = row['işçinin Ad və Soyadı:']
 
     # Customizing the popup to show both "Ünvan" and "Səfər tarixi"
-    popup_content = f"<b>Address:</b> {address}<br><b>Travel Date:</b> {travel_date} <br><b>Traveller: </b> {traveller}"
+    popup_content = f"<b>Address:</b> {address}<br><b>Visit Date:</b> {travel_date} <br><b>Visiter: </b> {traveller}"
 
     # Add the marker with the popup content
     marker = folium.Marker(
