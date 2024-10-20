@@ -1,9 +1,15 @@
 import pandas as pd
 import folium
+import os
 
 # Step 1: Load the Excel file
-file_path = r'C:\Users\chich\Downloads\new.xlsx'  # Update with your file path
-df = pd.read_excel(file_path)
+file_path = os.path.join('data', 'new.xlsx')
+
+# Check if the file exists before trying to load it
+if os.path.exists(file_path):
+    df = pd.read_excel(file_path)
+else:
+    print(f"File not found: {file_path}")
 
 # Ensure the 'Səfər' column is in datetime format
 df['Səfər'] = pd.to_datetime(df['Səfər'], errors='coerce')
